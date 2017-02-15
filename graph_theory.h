@@ -1,4 +1,4 @@
-#include "/home/beaker420/programming/Packages/numerical_integration.h"
+#include "numerical_integration.h"
 
 template <class T>
 class vertex {

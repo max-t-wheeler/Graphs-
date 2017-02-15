@@ -3,9 +3,6 @@
 #include <armadillo>
 
 #include "io.h"
-//#include "abstract/numbers_operations_package.h"
-
-//#define pi  3.141592653589793238462643383279502884L
 
 //return index of value in regspace space
 template <class S>
