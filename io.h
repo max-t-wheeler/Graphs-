@@ -13,7 +13,7 @@ bool log() {
 template <class S>
 void input(S entry) {
 
-	std::cin >> entry;
+	std::cin >> entry << '\n';
 
 }
 
