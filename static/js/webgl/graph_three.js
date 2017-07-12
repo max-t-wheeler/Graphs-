@@ -58,7 +58,7 @@ function init(graph) {
 
       for (var i = 0; i < numVertices; ++i) {
 
-   /**/
+   /**
          var material = new THREE.SpriteCanvasMaterial( { 
             
             color: colorNodes(graph.vertices[i].sid),
@@ -89,7 +89,7 @@ function init(graph) {
          group.add(vertex);
 
 
-   /**
+   /**/
          geometry = new THREE.SphereGeometry(graph.vertices[i].r, 32, 32);
          var material = new THREE.MeshBasicMaterial({ color: colorNodes(graph.vertices[i].sid) });
 
@@ -135,8 +135,8 @@ var dt = 0;
 function animate() {
    
    for (var i = 0; i < group.children.length; ++i) {
-      group.children[i].position.x += group.children[i].position.x*Math.sin(i*dt/2)/50;
-      group.children[i].position.y -= group.children[i].position.y*Math.sin(i*dt/2)/50;
+      group.children[i].position.x += (group.children[i].position.x*Math.cos(i*dt) - group.children[i].position.y*Math.sin(i*dt))/300;
+      group.children[i].position.y += (-group.children[i].position.y*Math.cos(i*dt) + group.children[i].position.x*Math.sin(i*dt))/300;
    }
 
    dt += 0.01;

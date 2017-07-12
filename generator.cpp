@@ -1,4 +1,4 @@
-#include "graph_theory.h"
+#include "static/cpp/graph_theory.h"
 #include <string.h>
 #include <jsoncpp/json/json.h>
 
