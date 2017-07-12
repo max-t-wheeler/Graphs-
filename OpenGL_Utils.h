@@ -20,8 +20,26 @@ void keyboard(unsigned char c, int x, int y) {
 
 void mouse(int button, int state, int x, int y){
 
-    if (button == GLUT_RIGHT_BUTTON){
-        glutLeaveMainLoop();
+    switch (button) {
+
+        case GLUT_LEFT_BUTTON :
+
+            if (state == GLUT_DOWN) {
+                glutIdleFunc(NULL);
+            }
+
+            break;
+
+        case GLUT_RIGHT_BUTTON :
+            
+            glutLeaveMainLoop();
+            
+            break;
+
+        default : 
+
+            break;
+    
     }
 
 }

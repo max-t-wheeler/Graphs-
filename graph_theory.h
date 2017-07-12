@@ -160,9 +160,11 @@ class vertex {
             if (query == "all") {
 
                 for (int i = 0; i < degree.size(); ++i) {
+
                     if (degree(i)%2 == 0) {
                         return 0;
                     }
+
                 }
 
                 return 1;
@@ -308,7 +310,9 @@ class graph {
             }
 
             if (type == "random") {
+
                 for (int i = 0; i < v_sizes.size(); ++i) {  
+
                     for (int j = 0; j < v_sizes(i); ++j) {
 
                         V(count + j, 0) = i;
@@ -319,12 +323,18 @@ class graph {
                         node->set_coords(Rand(-b, b),Rand(-b, b),Rand(-b, b));
 
                         v.push_back(node);
+
                     }
+
                     count += v_sizes(i);
+
                 }
+
             }
             else {
+
                 for (int i = 0; i < v_sizes.size(); ++i) {  
+
                     for (int j = 0; j < v_sizes(i); ++j) {
 
                         V(count + j, 0) = i;
@@ -335,10 +345,15 @@ class graph {
                         node->set_coords(0,0,0);
 
                         v.push_back(node);
+
                     }
+
                     count += v_sizes(i);
+                
                 }
+
             }
+
         }
 
         //create vertex array using a file
@@ -371,6 +386,7 @@ class graph {
             v_sizes = temp;
 
             for (int i = 0; i < V.n_rows; ++i) {
+
                 if (count < u_V.size() && V(i, 0) == u_V(count)) {
                     v_sizes(count)++;
                 }
@@ -378,20 +394,25 @@ class graph {
                     count++;
                     v_sizes(count)++;
                 }
+
             }
 
             for (int i = 0; i < v.size(); i++){
                 delete v[i];
             }
+
             v.clear();
 
             for (int i = 0; i < V.n_rows; ++i) {  
+
                 vertex<double> * node = new vertex<double>(V(i,0), V(i,1), rad_vec(i));
                 node->index = i;
                 node->set_coords(0,0,0);
 
                 v.push_back(node);
+
             }
+
         }
 
         //create vertex array using a matrix
@@ -419,26 +440,33 @@ class graph {
             v_sizes = temp;
 
             for (int i = 0; i < V.n_rows; ++i) {
+
                 if (count < u_V.size() && V(i, 0) == u_V(count)) {
                     v_sizes(count)++;
                 }
                 else {
+
                     count++;
                     v_sizes(count)++;
+
                 }
+
             }
 
             for (int i = 0; i < v.size(); i++){
                 delete v[i];
             }
+            
             v.clear();
 
             for (int i = 0; i < V.n_rows; ++i) {  
+
                 vertex<double> * node = new vertex<double>(V(i,0), V(i,1), rad_vec(i));
                 node->index = i;
                 node->set_coords(0,0,0);
 
                 v.push_back(node);
+
             }
 
         }
@@ -2274,7 +2302,7 @@ class graph {
             unsigned int n = order();
             arma::vec rad_vec(n);
 
-            rad_vec.fill(0.01);
+            rad_vec.fill(0.05);
 
             set_type();
             create_vertex_set(rad_vec);

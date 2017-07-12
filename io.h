@@ -11,9 +11,9 @@ bool log() {
 
 //input a value
 template <class S>
-void input(S entry) {
+void input(S &entry) {
 
-	std::cin >> entry << '\n';
+	std::cin >> entry;
 
 }
 

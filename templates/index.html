@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+      <link rel='stylesheet' type='text/css' href='static/css/stylesheet.css'/>
+      <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+      <script type='text/javascript' src='../static/js/gl-matrix/dist/gl-matrix.js'></script>
+      <script type='text/javascript' src='../static/js/sylvester/sylvester.js'></script>
+      <script type='text/javascript' src='../static/js/webgl/glUtils/glUtils.js'></script>
+      <script type='text/javascript' src='../static/js/webgl/threeJS/build/three.min.js'></script>
+      <script type='text/javascript' src='../static/js/webgl/threeJS/examples/js/controls/OrbitControls.js'></script>
+      <script type='text/javascript' src='../static/js/webgl/threeJS/examples/js/renderers/CanvasRenderer.js'></script>
+      <!--
+      <script type='text/javascript' src='../static/js/webgl/threeJS/src/math/Line3.js'></script>
+      -->
+      <!--
+      <script type='text/javascript' src='static/js/webgl/graph.js'></script>
+      -->
+      <script type='text/javascript' src='static/js/webgl/graph_three.js'></script>
+      <script type='text/javascript' src='static/js/jquery/graphs_jq.js'></script>
+
+      <script id='shader-fs' type='x-shader/x-fragment'>
+
+         varying lowp vec4 vColor;
+
+         void main(void) {
+            gl_FragColor = vColor;
+         }
+                  
+      </script>
+
+      <script id='shader-vs' type='x-shader/x-vertex'>
+
+         attribute vec3 aVertexPosition;
+         attribute vec4 aVertexColor;
+
+         uniform mat4 uMVMatrix;
+         uniform mat4 uPMatrix;
+
+         varying lowp vec4 vColor;
+
+         void main(void) {
+            
+            gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+            vColor = aVertexColor;
+         
+         }
+         
+      </script>
+
+   </head>
+
+   <body>
+
+      <div id='form'>
+
+         <form id='graph-inputs' action='http://localhost:5000/simulation' method='POST'>
+
+            Number of Species:<br>
+            <input type='number' name='num-species' id='num-species' value='1'>
+            <input type='button' value='Set' id='set-num-vert'/><br>
+            <div id='num-vert'></div><br>
+
+            Number of Dimensions:<br>
+            <input type='radio' name='graph-dimension' class='graph-dimension' id='graph-dimension-2D' value='2' checked> 2 <br>
+            <input type='radio' name='graph-dimension' class='graph-dimension' id='graph-dimension-3D' value='3'> 3 <br>
+
+            Center:<br>
+            <input type='radio' name='graph-center' id='center-origin' value='origin' checked> Origin <br>
+            <input type='radio' name='graph-center' id='center-custom' value='custom'> Custom <br>
+            <div id='coords'></div><br>
+
+            Radius:<br>
+            <input type='number' name='graph-radius' value='1'><br>
+
+            Layout:<br>
+            <input type='radio' name='graph-layout' value='polar' checked> Polar <br>
+            <input type='radio' name='graph-layout' value='partite'> Partite <br>
+            <input type='radio' name='graph-layout' value='concentric'> Concentric <br>
+            <input type='radio' name='graph-layout' value='grid'> Grid <br>
+            
+            Type:<br>
+            <input type='radio' name='graph-type' value='null' checked> Null <br>
+            <input type='radio' name='graph-type' value='custom'> Custom <br>
+            <input type='radio' name='graph-type' value='complete'> Complete <br>
+            <input type='radio' name='graph-type' value='complete k-partite'> Complete k-partite <br>
+            <input type='radio' name='graph-type' value='random'> Random <br>
+
+            <input type='submit' value='Submit'>
+            <input type='reset' value='Reset' id='reset' name='reset'><br>
+         </form>
+
+      </div>
+      
+      <!--
+      <div>
+         <canvas id = 'graph-canvas' width = '450' height = '450'></canvas>
+      </div>
+      -->
+      <script type="text/javascript">
+
+         $('#graph-inputs').submit(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('#graph-div').remove();
+            console.log('test');
+            fetch('/graph_inputs', {
+               method: 'post',
+               body: new FormData(document.getElementById('graph-inputs'))
+            }).then(function(response) {
+               console.log('test');
+               return response.json();
+            }).then(function(graph){
+               console.log(graph);
+               
+               init(graph);
+               tick();
+               /**
+               var canvas =  document.getElementById('graph-canvas');
+
+               renderCanvas(canvas, graph);
+               /**/
+   
+               /**
+
+               //initialize_context();           
+
+               var vertex_positions = [];
+
+               for (i = 0; i < graph.order; ++i) {
+                  vertex_positions.push(graph.vertices[i].x);
+                  vertex_positions.push(graph.vertices[i].y);
+                  vertex_positions.push(graph.vertices[i].z);
+               }
+
+               context.enable(context.DEPTH_TEST);
+               context.depthFunc(context.LEQUAL);
+               context.clearColor(0.5, 0.5, 0.5, 0.9);
+               context.clearDepth(1.0);
+               context.viewport(0.0, 0.0, canvas.width, canvas.height);
+               context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+
+               /**/
+
+            });
+            return false;
+         });
+
+      </script>
+      
+   </body>
+
+</html>
